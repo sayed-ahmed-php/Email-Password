@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use phpDocumentor\Reflection\Types\Null_;
 
 class LoginController extends Controller
 {
@@ -43,25 +42,24 @@ class LoginController extends Controller
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return void
      */
     protected function validateLogin(Request $request)
     {
-        $this->validate($request,[
-            $this->username()=>
-                'exists:users,email'
-        ],[
-            'Invalid E-mail or Password'
+        $this->validate($request, [
+            $this->username()=> 'exists:users,email',
+        ], [
+            'Invalid E-mail or Password',
         ]);
 
         $this->validate($request, [
-            $this->username() =>
-                Rule::exists('users')->where(function ($query){
-                    $query->where('active', true);
-                })
+            $this->username() => Rule::exists('users')->where(function ($query) {
+                $query->where('active', true);
+            }),
         ], [
-            'You need to activate your email.'
+            'You need to activate your email.',
         ]);
     }
 }
